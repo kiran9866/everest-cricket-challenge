@@ -1,5 +1,5 @@
-import { sample } from 'lodash';
-import { out, outcomeByTiming } from './configuration';
+import { last, reduce, sample } from 'lodash';
+import { outcomeByTiming } from './configuration';
 import { readFile } from './readFile';
 
 export const getOutcomeWhen = (timing) => sample(outcomeByTiming[timing]);
@@ -42,12 +42,34 @@ export function commentate(outcome) {
 	return `${commentary} - ${outcome.description}`;
 }
 
+export function commentateLastBall(innings) {
+	const lastBall = last(innings.balls);
+	return commentate(lastBall.outcome);
+}
+
 async function main() {
 	const text = await readFile();
 	const shots = parseInput(text);
 	const innings = newInnings();
-	shots.forEach(({ shotTiming }) => {
-		const outcome = getOutcomeWhen(shotTiming);
-		console.log(outcome.description);
-	});
+	reduce(
+		shots,
+		(acc, shot) => {
+			const { shotTiming } = shot;
+			const outcome = getOutcomeWhen(shotTiming);
+			const innings = play(acc, outcome);
+
+			const commentary = commentateLastBall(innings);
+			console.log(commentary);
+
+			return innings;
+		},
+		innings
+	);
 }
+
+main()
+	.then()
+	.catch((err) => {
+		console.log(err);
+		console.error("Couldn't run");
+	});
