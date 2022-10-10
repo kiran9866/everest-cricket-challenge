@@ -37,6 +37,11 @@ export function play(innings, outcome) {
 	};
 }
 
+export function commentate(outcome) {
+	const commentary = sample(outcome.commentaries);
+	return `${commentary} - ${outcome.description}`;
+}
+
 async function main() {
 	const text = await readFile();
 	const shots = parseInput(text);

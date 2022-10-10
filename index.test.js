@@ -1,4 +1,4 @@
-import { getOutcomeWhen, newInnings, play } from '.';
+import { commentate, getOutcomeWhen, newInnings, play } from '.';
 import { boundary, dot, out, single } from './configuration';
 
 describe('getOutcomeWhen', () => {
@@ -29,5 +29,40 @@ describe('play', () => {
 		const innings = newInnings();
 		const result = play(innings, out);
 		expect(result).toMatchObject({ runs: 0, wickets: 9 });
+	});
+});
+
+describe('commentate', () => {
+	it('should return formatted commentary for a dot ball', () => {
+		const result = commentate(dot);
+		expect(
+			dot.commentaries
+				.map((commentary) => `${commentary} - ${dot.description}`)
+				.includes(result)
+		).toBe(true);
+	});
+	it('should return formatted commentary for a single', () => {
+		const result = commentate(single);
+		expect(
+			single.commentaries
+				.map((commentary) => `${commentary} - ${single.description}`)
+				.includes(result)
+		).toBe(true);
+	});
+	it('should return formatted commentary for a boundary', () => {
+		const result = commentate(boundary);
+		expect(
+			boundary.commentaries
+				.map((commentary) => `${commentary} - ${boundary.description}`)
+				.includes(result)
+		).toBe(true);
+	});
+	it('should return formatted commentary for out', () => {
+		const result = commentate(out);
+		expect(
+			out.commentaries
+				.map((commentary) => `${commentary} - ${out.description}`)
+				.includes(result)
+		).toBe(true);
 	});
 });
