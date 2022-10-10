@@ -1,5 +1,5 @@
 import { sample } from 'lodash';
-import { outcomeByTiming } from './configuration';
+import { out, outcomeByTiming } from './configuration';
 import { readFile } from './readFile';
 
 export const getOutcomeWhen = (timing) => sample(outcomeByTiming[timing]);
@@ -16,17 +16,33 @@ export function parseInput(text) {
 		}));
 }
 
+export function newInnings() {
+	return {
+		runs: 0,
+		wickets: 10,
+		balls: [],
+	};
+}
+
+export function play(innings, outcome) {
+	return {
+		runs: innings.runs + outcome.runs,
+		wickets: innings.wickets + (outcome.wickets || 0),
+		balls: [
+			...innings.balls,
+			{
+				outcome,
+			},
+		],
+	};
+}
+
 async function main() {
 	const text = await readFile();
-	const inputs = parseInput(text);
-	inputs.forEach(({ shotTiming }) => {
+	const shots = parseInput(text);
+	const innings = newInnings();
+	shots.forEach(({ shotTiming }) => {
 		const outcome = getOutcomeWhen(shotTiming);
 		console.log(outcome.description);
 	});
 }
-
-main()
-	.then()
-	.catch((err) => {
-		console.error('Failed to run.');
-	});
