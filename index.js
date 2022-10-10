@@ -2,9 +2,7 @@ import { sample } from 'lodash';
 import { outcomeByTiming } from './configuration';
 import { readFile } from './readFile';
 
-export function getOutcomeWhen(timing) {
-	return sample(outcomeByTiming[timing]);
-}
+export const getOutcomeWhen = (timing) => sample(outcomeByTiming[timing]);
 
 export function parseInput(text) {
 	return text
@@ -21,7 +19,10 @@ export function parseInput(text) {
 async function main() {
 	const text = await readFile();
 	const inputs = parseInput(text);
-	console.log(inputs);
+	inputs.forEach(({ shotTiming }) => {
+		const outcome = getOutcomeWhen(shotTiming);
+		console.log(outcome.description);
+	});
 }
 
 main()

@@ -31,6 +31,7 @@ export const single = {
 	runs: 1,
 	commentaries: ['Excellent running between the wickets.'],
 	when: ['early'],
+	description: '1 run',
 };
 export const double = {
 	runs: 2,
@@ -39,11 +40,13 @@ export const double = {
 		'Excellent running between the wickets. ',
 	],
 	when: ['early', 'good'],
+	description: '2 runs',
 };
 export const three = {
 	runs: 3,
 	commentaries: ['Excellent effort on the boundary.'],
 	when: ['good'],
+	description: '3 runs',
 };
 export const boundary = {
 	runs: 4,
@@ -52,22 +55,26 @@ export const boundary = {
 		'Excellent line and length.',
 	],
 	when: ['perfect'],
+	description: '4 runs',
 };
 export const six = {
 	runs: 6,
 	commentaries: ["It's a huge hit.", "That's a massive and out of the ground."],
 	when: ['perfect'],
+	description: '6 runs',
 };
 export const dot = {
 	runs: 0,
 	commentaries: ['Edged and taken.'],
 	when: ['early', 'late'],
+	description: 'No runs',
 };
 export const out = {
 	runs: 0,
 	commentaries: ["It's a wicket."],
 	wickets: -1,
 	when: ['late'],
+	description: '1 wicket',
 };
 
 export const outcomes = [single, double, three, boundary, six, dot, out];
