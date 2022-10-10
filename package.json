@@ -12,5 +12,8 @@
     "babel-jest": "^28.1.1",
     "jest": "^28.1.1",
     "prettier": "^2.7.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
   }
 }
