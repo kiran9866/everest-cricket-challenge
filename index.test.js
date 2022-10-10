@@ -1,8 +1,9 @@
-import { sum } from "./index";
+import { getOutcomeWhen } from '.';
 
-describe("sum", () => {
-  it("should return addition", function () {
-    const result = sum(1, 2);
-    expect(result).toBe(3);
-  });
+describe('getOutcomeWhen', () => {
+	it('should return correct outcome for given timing', () => {
+		const outcome = getOutcomeWhen('early');
+		const { runs } = outcome;
+		expect(runs === 1 || runs === 2 || runs === 0).toBe(true);
+	});
 });

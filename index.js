@@ -1,3 +1,6 @@
-export function sum(a, b) {
-  return a + b
+import { sample } from 'lodash';
+import { outcomeByTiming } from './configuration';
+
+export function getOutcomeWhen(timing) {
+	return sample(outcomeByTiming[timing]);
 }
