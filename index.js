@@ -54,10 +54,12 @@ function replaceFallen(innings) {
 
 export function play(innings, outcome) {
 	const targetReached = innings.runs >= innings.target;
-	if (targetReached || innings.wickets <= 0) {
+	const allOut = innings.wickets < 2;
+	if (targetReached || allOut) {
 		return innings;
 	}
-	const inningsAfterShot = {
+
+	const inningsWithOutcome = {
 		...innings,
 		runs: innings.runs + outcome.runs,
 		wickets: innings.wickets + (outcome.wickets || 0),
@@ -71,14 +73,14 @@ export function play(innings, outcome) {
 	};
 
 	if (outcome.runs === single.runs || outcome.runs === three.runs) {
-		return swapPlayers(inningsAfterShot);
+		return swapPlayers(inningsWithOutcome);
 	}
 
 	if (outcome.wickets) {
-		return replaceFallen(inningsAfterShot);
+		return replaceFallen(inningsWithOutcome);
 	}
 
-	return inningsAfterShot;
+	return inningsWithOutcome;
 }
 
 export function commentate(outcome) {
