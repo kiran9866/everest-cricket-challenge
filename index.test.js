@@ -1,5 +1,5 @@
 import { commentate, getOutcomeWhen, newInnings, play } from '.';
-import { boundary, dot, out, single } from './configuration';
+import { boundary, dot, out, single, three } from './configuration';
 
 describe('getOutcomeWhen', () => {
 	it('should return correct outcome for given timing', () => {
@@ -40,6 +40,30 @@ describe('play', () => {
 		const result = play(innings, single);
 		expect(result).toBe(innings);
 	});
+	it('should swap players when single', () => {
+		const innings = newInnings({ players: ['a', 'b'] });
+		const result = play(innings, single);
+		expect(result.striker).toBe('b');
+		expect(result.nonStriker).toBe('a');
+	});
+	it('should swap players when three', () => {
+		const innings = newInnings({ players: ['a', 'b'] });
+		const result = play(innings, three);
+		expect(result.striker).toBe('b');
+		expect(result.nonStriker).toBe('a');
+	});
+	it('should not swap players for boundary', () => {
+		const innings = newInnings({ players: ['a', 'b'] });
+		const result = play(innings, boundary);
+		expect(result.striker).toBe('a');
+		expect(result.nonStriker).toBe('b');
+	});
+	it('should not swap players for out', () => {
+		const innings = newInnings({ players: ['a', 'b'] });
+		const result = play(innings, out);
+		expect(result.striker).toBe('a');
+		expect(result.nonStriker).toBe('b');
+	});
 });
 
 const allCommentaries = (outcome) => {
@@ -75,6 +99,8 @@ describe('newInnings', () => {
 		expect(newInnings(overrides)).toEqual({
 			balls: [],
 			players: ['a', 'b'],
+			striker: 'a',
+			nonStriker: 'b',
 			runs: 0,
 			target: 10,
 			wickets: 10,

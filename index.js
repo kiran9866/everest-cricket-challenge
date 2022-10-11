@@ -1,5 +1,5 @@
-import _, { defaults, last, reduce, sample } from 'lodash';
-import { outcomeByTiming } from './configuration';
+import _, { defaults, get, last, reduce, sample, take } from 'lodash';
+import { outcomeByTiming, single, three } from './configuration';
 import { readFile } from './readFile';
 
 export const getOutcomeWhen = (timing) => sample(outcomeByTiming[timing]);
@@ -16,14 +16,29 @@ export function parseInput(text) {
 		}));
 }
 
-export function newInnings(overrides) {
+export function newInnings(overrides = {}) {
+	const players = get(overrides, 'players', []);
+	const [striker, nonStriker] = take(players, 2);
 	const defaultInnings = {
 		runs: 0,
 		wickets: 10,
 		target: Infinity,
+
+		players,
+		striker,
+		nonStriker,
+
 		balls: [],
 	};
 	return defaults(overrides, defaultInnings);
+}
+
+function swapPlayers(innings) {
+	return {
+		...innings,
+		striker: innings.nonStriker,
+		nonStriker: innings.striker,
+	};
 }
 
 export function play(innings, outcome) {
@@ -31,7 +46,7 @@ export function play(innings, outcome) {
 	if (targetReached || innings.wickets <= 0) {
 		return innings;
 	}
-	return {
+	const inningsAfterShot = {
 		...innings,
 		runs: innings.runs + outcome.runs,
 		wickets: innings.wickets + (outcome.wickets || 0),
@@ -42,6 +57,13 @@ export function play(innings, outcome) {
 			},
 		],
 	};
+	const shouldSwap =
+		outcome.runs === single.runs || outcome.runs === three.runs;
+	if (shouldSwap) {
+		return swapPlayers(inningsAfterShot);
+	}
+
+	return inningsAfterShot;
 }
 
 export function commentate(outcome) {
