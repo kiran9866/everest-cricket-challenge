@@ -55,3 +55,19 @@ describe('commentate', () => {
 		expect(allCommentaries(out).includes(result)).toBe(true);
 	});
 });
+
+describe('newInnings', () => {
+	it('should create new innings with overrides', () => {
+		const overrides = {
+			players: ['a', 'b'],
+			target: 10,
+		};
+		expect(newInnings(overrides)).toEqual({
+			balls: [],
+			players: ['a', 'b'],
+			runs: 0,
+			target: 10,
+			wickets: 10,
+		});
+	});
+});

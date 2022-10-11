@@ -1,4 +1,4 @@
-import { last, reduce, sample } from 'lodash';
+import _, { defaults, last, reduce, sample } from 'lodash';
 import { outcomeByTiming } from './configuration';
 import { readFile } from './readFile';
 
@@ -16,12 +16,14 @@ export function parseInput(text) {
 		}));
 }
 
-export function newInnings() {
-	return {
+export function newInnings(overrides) {
+	const defaultInnings = {
 		runs: 0,
 		wickets: 10,
+		target: Infinity,
 		balls: [],
 	};
+	return defaults(overrides, defaultInnings);
 }
 
 export function play(innings, outcome) {
@@ -47,11 +49,8 @@ export function commentateLastBall(innings) {
 	return commentate(lastBall.outcome);
 }
 
-async function main() {
-	const text = await readFile();
-	const shots = parseInput(text);
-	const innings = newInnings();
-	reduce(
+export function playInnings(innings, shots) {
+	return reduce(
 		shots,
 		(acc, shot) => {
 			const { shotTiming } = shot;
@@ -67,9 +66,10 @@ async function main() {
 	);
 }
 
-main()
-	.then()
-	.catch((err) => {
-		console.log(err);
-		console.error("Couldn't run");
-	});
+async function main() {
+	const text = await readFile();
+	const shots = parseInput(text);
+
+	const innings = newInnings();
+	playInnings(innings, shots);
+}
