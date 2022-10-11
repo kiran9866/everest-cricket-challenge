@@ -69,9 +69,8 @@ export function play(innings, outcome) {
 			},
 		],
 	};
-	const shouldSwap =
-		outcome.runs === single.runs || outcome.runs === three.runs;
-	if (shouldSwap) {
+
+	if (outcome.runs === single.runs || outcome.runs === three.runs) {
 		return swapPlayers(inningsAfterShot);
 	}
 
