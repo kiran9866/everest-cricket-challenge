@@ -54,7 +54,7 @@ function replaceFallen(innings) {
 
 export function play(innings, outcome) {
 	const targetReached = innings.runs >= innings.target;
-	const allOut = innings.wickets < 2;
+	const allOut = innings.wickets < 1;
 	if (targetReached || allOut) {
 		return innings;
 	}
