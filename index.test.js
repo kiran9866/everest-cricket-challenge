@@ -58,10 +58,10 @@ describe('play', () => {
 		expect(result.striker).toBe('a');
 		expect(result.nonStriker).toBe('b');
 	});
-	it('should not swap players for out', () => {
-		const innings = newInnings({ players: ['a', 'b'] });
+	it('should replace striker for out', () => {
+		const innings = newInnings({ players: ['a', 'b', 'c'] });
 		const result = play(innings, out);
-		expect(result.striker).toBe('a');
+		expect(result.striker).toBe('c');
 		expect(result.nonStriker).toBe('b');
 	});
 });

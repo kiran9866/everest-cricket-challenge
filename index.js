@@ -41,6 +41,17 @@ function swapPlayers(innings) {
 	};
 }
 
+function replaceFallen(innings) {
+	const fallen = innings.striker;
+	const players = innings.players.filter((player) => player !== fallen);
+	const striker = players.filter((player) => player !== innings.nonStriker)[0];
+	return {
+		...innings,
+		players,
+		striker,
+	};
+}
+
 export function play(innings, outcome) {
 	const targetReached = innings.runs >= innings.target;
 	if (targetReached || innings.wickets <= 0) {
@@ -53,6 +64,7 @@ export function play(innings, outcome) {
 		balls: [
 			...innings.balls,
 			{
+				striker: innings.striker,
 				outcome,
 			},
 		],
@@ -61,6 +73,10 @@ export function play(innings, outcome) {
 		outcome.runs === single.runs || outcome.runs === three.runs;
 	if (shouldSwap) {
 		return swapPlayers(inningsAfterShot);
+	}
+
+	if (outcome.wickets) {
+		return replaceFallen(inningsAfterShot);
 	}
 
 	return inningsAfterShot;
