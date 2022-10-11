@@ -28,10 +28,7 @@ export function newInnings(overrides) {
 
 export function play(innings, outcome) {
 	const targetReached = innings.runs >= innings.target;
-	if (targetReached) {
-		return innings;
-	}
-	if (innings.wickets <= 0) {
+	if (targetReached || innings.wickets <= 0) {
 		return innings;
 	}
 	return {
