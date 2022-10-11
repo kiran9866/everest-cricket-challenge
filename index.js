@@ -52,7 +52,7 @@ function replaceFallen(innings) {
 	};
 }
 
-export function play(innings, outcome) {
+export function play(innings, shot, outcome) {
 	const targetReached = innings.runs >= innings.target;
 	const allOut = innings.wickets < 1;
 	if (targetReached || allOut) {
@@ -67,6 +67,7 @@ export function play(innings, outcome) {
 			...innings.balls,
 			{
 				striker: innings.striker,
+				shot,
 				outcome,
 			},
 		],
@@ -99,7 +100,7 @@ export function playInnings(innings, shots) {
 		(acc, shot) => {
 			const { shotTiming } = shot;
 			const outcome = getOutcomeWhen(shotTiming);
-			return play(acc, outcome);
+			return play(acc, shot, outcome);
 		},
 		innings
 	);
