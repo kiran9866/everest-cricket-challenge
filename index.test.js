@@ -30,6 +30,16 @@ describe('play', () => {
 		const result = play(innings, out);
 		expect(result).toMatchObject({ runs: 0, wickets: 9 });
 	});
+	it('should not play when target reached', () => {
+		const innings = newInnings({ target: 10, runs: 10 });
+		const result = play(innings, single);
+		expect(result).toBe(innings);
+	});
+	it('should not play when no wickets left', () => {
+		const innings = newInnings({ wickets: 0 });
+		const result = play(innings, single);
+		expect(result).toBe(innings);
+	});
 });
 
 const allCommentaries = (outcome) => {
