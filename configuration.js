@@ -37,23 +37,23 @@ export const double = {
 	runs: 2,
 	commentaries: [
 		'Convert ones into twos.',
-		'Excellent running between the wickets. ',
+		'Excellent running between the wickets.',
 	],
 	when: ['early', 'good'],
 	description: '2 runs',
 };
 export const three = {
 	runs: 3,
-	commentaries: ['Excellent effort on the boundary.'],
+	commentaries: [
+		'Excellent effort on the boundary.',
+		'Excellent running between the wickets. ',
+	],
 	when: ['good'],
 	description: '3 runs',
 };
 export const boundary = {
 	runs: 4,
-	commentaries: [
-		'Excellent effort on the boundary.',
-		'Excellent line and length.',
-	],
+	commentaries: ['Excellent effort on the boundary.', 'Just over the fielder.'],
 	when: ['perfect'],
 	description: '4 runs',
 };
@@ -65,13 +65,13 @@ export const six = {
 };
 export const dot = {
 	runs: 0,
-	commentaries: ['Edged and taken.'],
+	commentaries: ['Excellent line and length.'],
 	when: ['early', 'late'],
 	description: 'No runs',
 };
 export const out = {
 	runs: 0,
-	commentaries: ["It's a wicket."],
+	commentaries: ["It's a wicket.", 'Edged and taken.'],
 	wickets: -1,
 	when: ['late'],
 	description: '1 wicket',
