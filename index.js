@@ -99,12 +99,7 @@ export function playInnings(innings, shots) {
 		(acc, shot) => {
 			const { shotTiming } = shot;
 			const outcome = getOutcomeWhen(shotTiming);
-			const innings = play(acc, outcome);
-
-			const commentary = commentateLastBall(innings);
-			console.log(commentary);
-
-			return innings;
+			return play(acc, outcome);
 		},
 		innings
 	);
@@ -115,5 +110,8 @@ async function main() {
 	const shots = parseInput(text);
 
 	const innings = newInnings();
-	playInnings(innings, shots);
+	const result = playInnings(innings, shots);
+	result.balls.forEach((ball) => {
+		commentate(ball.outcome);
+	});
 }
