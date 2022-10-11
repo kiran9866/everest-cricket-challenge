@@ -1,118 +1,21 @@
-import _, { defaults, get, last, reduce, sample, take } from 'lodash';
-import { outcomeByTiming, single, three } from './configuration';
-import { readFile } from './readFile';
+import prompt from 'prompt';
+import simple from './simple';
+import superover from './superover';
 
-export const getOutcomeWhen = (timing) => sample(outcomeByTiming[timing]);
-
-export function parseInput(text) {
-	return text
-		.trim()
-		.split('\n')
-		.map((line) => line.split(' '))
-		.map(([bowlingCard, battingCard, shotTiming]) => ({
-			bowlingCard,
-			battingCard,
-			shotTiming,
-		}));
-}
-
-export function newInnings(overrides = {}) {
-	const players = get(overrides, 'players', []);
-	const [striker, nonStriker] = take(players, 2);
-	const defaultInnings = {
-		runs: 0,
-		wickets: 10,
-		target: Infinity,
-
-		players,
-		striker,
-		nonStriker,
-
-		balls: [],
-	};
-	return defaults(overrides, defaultInnings);
-}
-
-function swapPlayers(innings) {
-	return {
-		...innings,
-		striker: innings.nonStriker,
-		nonStriker: innings.striker,
-	};
-}
-
-function replaceFallen(innings) {
-	const fallen = innings.striker;
-	const players = innings.players.filter((player) => player !== fallen);
-	const striker = players.filter((player) => player !== innings.nonStriker)[0];
-	return {
-		...innings,
-		players,
-		striker,
-	};
-}
-
-export function play(innings, shot, outcome) {
-	const targetReached = innings.runs >= innings.target;
-	const allOut = innings.wickets < 1;
-	if (targetReached || allOut) {
-		return innings;
-	}
-
-	const inningsWithOutcome = {
-		...innings,
-		runs: innings.runs + outcome.runs,
-		wickets: innings.wickets + (outcome.wickets || 0),
-		balls: [
-			...innings.balls,
-			{
-				striker: innings.striker,
-				shot,
-				outcome,
-			},
-		],
-	};
-
-	if (outcome.runs === single.runs || outcome.runs === three.runs) {
-		return swapPlayers(inningsWithOutcome);
-	}
-
-	if (outcome.wickets) {
-		return replaceFallen(inningsWithOutcome);
-	}
-
-	return inningsWithOutcome;
-}
-
-export function commentate(outcome) {
-	const commentary = sample(outcome.commentaries);
-	return `${commentary} - ${outcome.description}`;
-}
-
-export function commentateLastBall(innings) {
-	const lastBall = last(innings.balls);
-	return commentate(lastBall.outcome);
-}
-
-export function playInnings(innings, shots) {
-	return reduce(
-		shots,
-		(acc, shot) => {
-			const { shotTiming } = shot;
-			const outcome = getOutcomeWhen(shotTiming);
-			return play(acc, shot, outcome);
+const programs = {
+	superover,
+	simple,
+};
+async function run() {
+	const { selection } = await prompt.get([
+		{
+			name: 'selection',
+			description: 'Select a game? Choices: `simple` or `superover`',
+			required: true,
+			conform: (selection) => ['superover', 'simple'].includes(selection),
 		},
-		innings
-	);
+	]);
+	await programs[selection]();
 }
 
-async function main() {
-	const text = await readFile();
-	const shots = parseInput(text);
-
-	const innings = newInnings();
-	const result = playInnings(innings, shots);
-	result.balls.forEach((ball) => {
-		commentate(ball.outcome);
-	});
-}
+run();
