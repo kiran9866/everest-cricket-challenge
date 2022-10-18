@@ -1,6 +1,6 @@
 import { sample } from 'lodash';
-import { newInnings, playInnings } from './innings';
-import { readFile } from './readFile';
+import { newInnings, playInnings } from '../innings';
+import { readFile } from '../utils/readFile';
 
 export function parseInput(text) {
 	return text

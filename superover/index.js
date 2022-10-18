@@ -1,13 +1,13 @@
 import { sample, sampleSize } from 'lodash';
 
 import prompt from 'prompt';
-import { newInnings, playInnings } from './innings';
+import { newInnings, playInnings } from '../innings';
 import {
 	australia,
 	bowlingCards as allBowlingCards,
 	india,
-} from './configuration';
-import { readFile } from './readFile';
+} from '../configuration';
+import { readFile } from '../utils/readFile';
 
 export function parseInput(text) {
 	return text

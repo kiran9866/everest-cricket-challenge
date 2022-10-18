@@ -1,5 +1,5 @@
 import { defaults, get, last, reduce, sample, take } from 'lodash';
-import { outcomeByTiming, single, three } from './configuration';
+import { outcomeByTiming, single, three } from '../configuration';
 
 export const getOutcomeWhen = (timing) => sample(outcomeByTiming[timing]);
 

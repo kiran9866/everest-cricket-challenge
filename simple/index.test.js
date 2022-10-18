@@ -1,5 +1,5 @@
-import { boundary, dot, out, single } from './configuration';
-import { commentate } from './simple';
+import { boundary, dot, out, single } from '../configuration';
+import { commentate } from '.';
 
 const allCommentaries = (outcome) => {
 	return outcome.commentaries.map(

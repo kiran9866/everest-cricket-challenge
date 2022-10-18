@@ -1,4 +1,4 @@
-import { parseInput } from './superover';
+import { parseInput } from '.';
 
 describe('parseInput', () => {
 	it('should parse given input text', () => {

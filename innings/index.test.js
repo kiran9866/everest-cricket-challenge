@@ -1,5 +1,5 @@
-import { boundary, dot, out, single, three } from './configuration';
-import { getOutcomeWhen, newInnings, play } from './innings';
+import { boundary, dot, out, single, three } from '../configuration';
+import { getOutcomeWhen, newInnings, play } from '.';
 
 describe('getOutcomeWhen', () => {
 	it('should return correct outcome for given timing', () => {
