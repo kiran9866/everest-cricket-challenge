@@ -18,6 +18,12 @@ export function parseInput(text) {
 			shotTiming,
 		}));
 }
+export function validateTargetScore(target) {
+	const isNumber = Number(target) === target;
+	const isPositive = target >= 0;
+	const isInteger = target % 1 === 0;
+	return isNumber && isPositive && isInteger;
+}
 
 export function printResult(innings) {
 	const { target, runs, wickets } = innings;
@@ -51,6 +57,7 @@ export default async function main() {
 	}));
 	const target = await prompt({
 		description: 'Set target for the super over',
+		validation: validateTargetScore,
 		parse: _.toNumber,
 	});
 	const superoverInnings = {
