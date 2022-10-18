@@ -56,7 +56,7 @@ export default async function main() {
 		bowlingCard: sample(allBowlingCards),
 	}));
 	const target = await prompt({
-		description: 'Set target for the super over',
+		description: 'Set target for the super over: ',
 		validation: validateTargetScore,
 		parse: _.toNumber,
 	});

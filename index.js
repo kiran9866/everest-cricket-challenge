@@ -8,7 +8,7 @@ const programs = {
 };
 async function run() {
 	const selection = await prompt({
-		description: 'Select a game? Choices: `simple` or `superover`',
+		description: 'Select a game? Choices: `simple` or `superover`: ',
 		validation: (selection) => ['superover', 'simple'].includes(selection),
 	});
 	await programs[selection]();
