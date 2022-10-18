@@ -1,6 +1,5 @@
-import { sample, sampleSize } from 'lodash';
-
-import prompt from 'prompt';
+import _, { sample, sampleSize } from 'lodash';
+import prompt from '../utils/prompt';
 import { newInnings, playInnings } from '../innings';
 import {
 	australia,
@@ -50,18 +49,14 @@ export default async function main() {
 		...shot,
 		bowlingCard: sample(allBowlingCards),
 	}));
-	const input = await prompt.get([
-		{
-			name: 'target',
-			type: 'number',
-			description: 'Set target for the super over',
-			required: true,
-		},
-	]);
+	const target = await prompt({
+		description: 'Set target for the super over',
+		parse: _.toNumber,
+	});
 	const superoverInnings = {
 		players: sampleSize(australia, 3),
 		wickets: 2,
-		target: input.target,
+		target,
 		balls: [],
 	};
 	const bowler = sample(india);
